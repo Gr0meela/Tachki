@@ -1,32 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
-    //private bool isAI = false;
+    public bool isAI = false;
+    public float input = 0f;
     private bool isGrounded;
+    private float steering;
     private Car car;
-    public LayerMask Ground;
     private Transform car_tr;
+
+    [SerializeField] private LayerMask Ground;
     [SerializeField] private Rigidbody car_rb;
     [SerializeField] private float max_speed;
     [SerializeField] private float max_steering;
-    private float steering;
+    [SerializeField] private Button left;
+    [SerializeField] private Button right;
 
     void Awake()
     {
         car = GetComponent<Car>();
         car_tr = GetComponent<Transform>();
         car_rb.transform.parent = null;
+        left = GameObject.Find("L_Button").GetComponent<Button>();
+        right = GameObject.Find("R_Button").GetComponent<Button>();
     }
 
     void FixedUpdate()
     {
         RaycastHit hit;
         isGrounded = Physics.Raycast(car_tr.position, -car_tr.up, out hit, 1f, Ground);
-        steering = Input.GetAxis("Horizontal") * max_steering;
         car_tr.position = car_rb.transform.position;
+        if(!isAI)
+            steering = input * max_steering;
+        else
+        {
+            AIController();
+        }
 
         if (isGrounded)
         {
@@ -37,5 +49,10 @@ public class Controller : MonoBehaviour
         {
             car_rb.AddForce(car_tr.up * -50f);
         }
+    }
+    
+    void AIController()
+    {
+
     }
 }
