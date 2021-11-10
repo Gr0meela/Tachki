@@ -24,12 +24,10 @@ public class Controller : MonoBehaviour
     void FixedUpdate()
     {
         RaycastHit hit;
-        isGrounded = Physics.Raycast(car_tr.position, -car_tr.up, out hit, 1f);
-        Debug.DrawRay(car_tr.position, -car_tr.up, Color.yellow);
-
+        isGrounded = Physics.Raycast(car_tr.position, -car_tr.up, out hit, 1f, Ground);
         steering = Input.GetAxis("Horizontal") * max_steering;
-
         car_tr.position = car_rb.transform.position;
+
         if (isGrounded)
         {
             car.MoveForward(car_tr, car_rb, max_speed, hit);
