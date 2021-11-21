@@ -16,6 +16,7 @@ public class Controller : MonoBehaviour
     [SerializeField] private Rigidbody car_rb;
     [SerializeField] private float max_speed;
     [SerializeField] private float max_steering;
+    [SerializeField] private float gravity_modify = -50f;
     [SerializeField] private Button left;
     [SerializeField] private Button right;
 
@@ -37,7 +38,7 @@ public class Controller : MonoBehaviour
             steering = input * max_steering;
         else
         {
-            AIController();
+            //AIController();
         }
 
         if (isGrounded)
@@ -47,12 +48,8 @@ public class Controller : MonoBehaviour
         }
         else
         {
-            car_rb.AddForce(car_tr.up * -50f);
+            car_rb.AddForce(car_tr.up * gravity_modify);
         }
     }
     
-    void AIController()
-    {
-
-    }
 }
